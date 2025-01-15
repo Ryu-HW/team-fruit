@@ -19,7 +19,7 @@ public class MessageController {
 
     @PostMapping("/msg")
     @ResponseBody
-    public String createMessage(@ModelAttribute Message message){
+    public String createMessage(@RequestBody Message message){
         messageService.insertMessage(message);
         return "저장완료";
     }
