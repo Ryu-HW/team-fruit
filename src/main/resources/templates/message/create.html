@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <form id="messageForm" th:action="@{/msg}" method="post">
+    <label for="message">메시지:</label>
+    <input type=text id="message_id" name="message" required/>
+    <button type="submit">메시지 보내기</button>
+  </form>
+</body>
+</html>
