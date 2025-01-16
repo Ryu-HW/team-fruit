@@ -9,4 +9,10 @@
     <select id="selectAllPosts" resultType="com.myfruit.pms.DTO.Post">
         select * from post
     </select>
+    <select id="selectPostById" resultType="com.myfruit.pms.DTO.Post">
+        select * from post where id = #{id}
+    </select>
+    <update id="updatePost" parameterType="com.myfruit.pms.DTO.Post">
+        update post set title = #{title}, content = #{content} where id = #{id}
+    </update>
 </mapper>

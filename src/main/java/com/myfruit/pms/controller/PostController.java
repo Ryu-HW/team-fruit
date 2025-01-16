@@ -5,10 +5,7 @@ import com.myfruit.pms.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,4 +37,26 @@ public class PostController {
     public String showPosts(){
         return "/post/show";
     }
+
+    @GetMapping("/edit/{id}")
+    public String showPost(@PathVariable("id") int id){
+        if(postService.findPostById(id) != null) {
+            return "post/post";
+        }else {
+            return "";
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public Post getPost(@PathVariable("id") int id){
+        return postService.findPostById(id);
+    }
+
+    @PostMapping("/edit/post")
+    @ResponseBody
+    public void editPost(@RequestBody Post post){
+        postService.updatePost(post);
+    }
+
 }

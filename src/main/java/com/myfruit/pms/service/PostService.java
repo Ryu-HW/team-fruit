@@ -20,4 +20,12 @@ public class PostService {
     public List<Post> findAllPosts(){
         return postMapper.selectAllPosts();
     }
+
+    public Post findPostById(int id){
+        return postMapper.selectPostById(id);
+    }
+
+    public void updatePost(Post post){
+        postMapper.updatePost(post);
+    }
 }

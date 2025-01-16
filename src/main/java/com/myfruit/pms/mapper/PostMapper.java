@@ -10,4 +10,6 @@ public interface PostMapper {
 
     public void insertPost(Post post);
     public List<Post> selectAllPosts();
+    public Post selectPostById(int id);
+    public void updatePost(Post post);
 }

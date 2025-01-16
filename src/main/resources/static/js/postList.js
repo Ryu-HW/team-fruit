@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             posts.forEach(post => {
                 postHTML +=
                     `<div>
-                        <p>${post.id} | 제목: ${post.title} - 내용: ${post.title}</p>
+                        <p><a href="/edit/${post.id}">${post.id}</a> | 제목: ${post.title} - 내용: ${post.content}</p>
                     </div>
                 `;
             });

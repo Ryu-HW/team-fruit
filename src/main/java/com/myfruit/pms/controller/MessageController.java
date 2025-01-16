@@ -23,4 +23,7 @@ public class MessageController {
         messageService.insertMessage(message);
         return "저장완료";
     }
+
+
+
 }
