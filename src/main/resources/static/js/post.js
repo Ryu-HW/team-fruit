@@ -18,7 +18,7 @@ document.getElementById('postForm').addEventListener('submit', function(e) {
     .then(response => {
         if (response.ok) {
             console.log("ok")
-            window.location.href = "http://localhost:8080/post/list";
+            window.location.href = "http://localhost:8080/post/show";
         } else {
             console.log("not ok")
         }

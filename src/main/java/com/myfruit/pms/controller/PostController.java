@@ -30,9 +30,14 @@ public class PostController {
     }
 
     @GetMapping("/post/list")
-    public String listUpPosts(Model model){
+    @ResponseBody
+    public List<Post> listUpPosts(){
         List<Post> posts = postService.findAllPosts();
-        model.addAttribute("posts",posts);
-        return "post/list";
+        return posts;
+    }
+
+    @GetMapping("/post/show")
+    public String showPosts(){
+        return "/post/show";
     }
 }
