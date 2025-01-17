@@ -28,4 +28,8 @@ public class PostService {
     public void updatePost(Post post){
         postMapper.updatePost(post);
     }
+
+    public void deletePost(int id){
+        postMapper.deletePost(id);
+    }
 }

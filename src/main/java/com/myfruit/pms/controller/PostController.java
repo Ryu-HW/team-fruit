@@ -59,4 +59,11 @@ public class PostController {
         postService.updatePost(post);
     }
 
+    @GetMapping("/del/post/{id}")
+    @ResponseBody
+    public void deletePost(@PathVariable int id){
+        postService.deletePost(id);
+    }
+
+
 }

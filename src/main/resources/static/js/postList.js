@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             posts.forEach(post => {
                 postHTML +=
                     `<div>
-                        <p><a href="/edit/${post.id}">${post.id}</a> | 제목: ${post.title} - 내용: ${post.content}</p>
+                        <p><a href="/edit/${post.id}">${post.id}</a> | 제목: ${post.title} - 내용: ${post.content}<button onclick="deletePost(${post.id})">삭제</button></p>
                     </div>
                 `;
             });
@@ -25,5 +25,24 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching data:', error);
         });
 
-
 });
+
+function deletePost(id){
+    if(confirm(id+"번 포스트를 삭제하시겠습니까?")){
+        fetch('/del/post/'+id, {
+                method: 'GET',
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("삭제 완료")
+                    window.location.href = "http://localhost:8080/post/show";
+                } else {
+                    console.log("not ok")
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('오류가 발생했습니다.');
+            });
+    }
+}
