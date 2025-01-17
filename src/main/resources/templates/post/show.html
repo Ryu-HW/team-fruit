@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <h1>게시글 목록</h1>
-<div id="postsList"></div>
-
-<script src="/js/postList.js"></script>
+<ul th:each="post : ${posts}">
+    <li th:text="'제목 : ' + ${post.title}"></li>
+    <li th:text="'내용 : ' + ${post.content}"></li>
+    <li><button><a th:href="'/edit/' + ${post.id}">수정</a></button> <button><a th:href="'/del/post/' + ${post.id}">삭제</a></button></li>
+</ul>
+<p>
+    <span th:if="${pageNum > 1}"><a  th:href="'/post/show/'+(${pageNum} -1)"><</a></span>
+    <span th:text="${pageNum}+'page'"></span>
+    <span th:if="${postSize > 2}"><a th:href="'/post/show/'+(${pageNum} +1)">></a></span>
+</p>
 </body>
 </html>

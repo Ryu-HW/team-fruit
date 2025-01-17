@@ -21,49 +21,44 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    @ResponseBody
-    public void createPost(@RequestBody Post post) {
+    public String createPost(@ModelAttribute Post post) {
         postService.createPost(post);
+        return "/post/show";
     }
 
-    @GetMapping("/post/list")
-    @ResponseBody
-    public List<Post> listUpPosts(){
-        List<Post> posts = postService.findAllPosts();
-        return posts;
-    }
-
-    @GetMapping("/post/show")
-    public String showPosts(){
+    @GetMapping("/post/show/{page}")
+    public String showPosts(@PathVariable("page") int page, Model model){
+        int limit = 3;
+        int offset = (page-1)*limit;
+        List<Post> pagePosts = postService.getPostByPage(limit,offset);
+        int pagePostsSize = pagePosts.size();
+        model.addAttribute("postSize",pagePostsSize);
+        model.addAttribute("posts",pagePosts);
+        model.addAttribute("pageNum",page);
         return "/post/show";
     }
 
     @GetMapping("/edit/{id}")
-    public String showPost(@PathVariable("id") int id){
-        if(postService.findPostById(id) != null) {
-            return "post/post";
-        }else {
-            return "";
+    public String showPost(@PathVariable("id") int id,Model model){
+        try {
+            Post getPost = postService.findPostById(id);
+            model.addAttribute("posts", getPost);
+            return "/post/post";
+        }catch (IllegalStateException e){
+            return "common/error/404";
         }
     }
 
-    @GetMapping("/get/{id}")
-    @ResponseBody
-    public Post getPost(@PathVariable("id") int id){
-        return postService.findPostById(id);
-    }
-
     @PostMapping("/edit/post")
-    @ResponseBody
-    public void editPost(@RequestBody Post post){
+    public String editPost(@ModelAttribute Post post,Model model){
         postService.updatePost(post);
+        return "redirect:/post/show/1";
     }
 
     @GetMapping("/del/post/{id}")
-    @ResponseBody
-    public void deletePost(@PathVariable int id){
+    public String deletePost(@PathVariable int id){
         postService.deletePost(id);
+        return "redirect:/post/show/1";
     }
-
 
 }

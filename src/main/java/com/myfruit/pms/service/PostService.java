@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -22,7 +23,9 @@ public class PostService {
     }
 
     public Post findPostById(int id){
-        return postMapper.selectPostById(id);
+        return postMapper.selectPostById(id).orElseThrow(
+            () -> new IllegalStateException("파일을 찾을 수 없습니다.")
+        );
     }
 
     public void updatePost(Post post){
@@ -31,5 +34,9 @@ public class PostService {
 
     public void deletePost(int id){
         postMapper.deletePost(id);
+    }
+
+    public List<Post> getPostByPage(int limit, int offset){
+        return postMapper.selectPostByPage(limit,offset);
     }
 }
