@@ -9,8 +9,9 @@ import java.util.List;
 public interface PostMapper {
 
     public void insertPost(Post post);
-    public List<Post> selectAllPosts();
+    public List<Post> selectPostByPage(int limit,int offset);
     public Post selectPostById(int id);
     public void updatePost(Post post);
     public void deletePost(int id);
+    public int countAllPosts();
 }

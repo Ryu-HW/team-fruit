@@ -3,12 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.myfruit.pms.mapper.PostMapper">
+
     <insert id="insertPost" parameterType="com.myfruit.pms.DTO.Post">
         insert into post (title, content) values (#{title}, #{content})
     </insert>
 
-    <select id="selectAllPosts" resultType="com.myfruit.pms.DTO.Post">
-        select * from post
+    <select id="countAllPosts" resultType="int">
+        select count(*) from post
     </select>
 
     <select id="selectPostById" resultType="com.myfruit.pms.DTO.Post">
@@ -22,4 +23,8 @@
     <delete id="deletePost">
         delete from post where id = #{id}
     </delete>
+
+    <select id="selectPostByPage" resultType="com.myfruit.pms.DTO.Post">
+        select * from post ORDER BY id DESC LIMIT #{limit} OFFSET #{offset}
+    </select>
 </mapper>

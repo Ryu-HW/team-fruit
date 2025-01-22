@@ -1,5 +1,6 @@
 package com.myfruit.pms.controller;
 
+import com.myfruit.pms.DTO.PageDto;
 import com.myfruit.pms.DTO.Post;
 import com.myfruit.pms.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,49 +22,47 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    @ResponseBody
-    public void createPost(@RequestBody Post post) {
+    public String createPost(@ModelAttribute Post post) {
         postService.createPost(post);
-    }
-
-    @GetMapping("/post/list")
-    @ResponseBody
-    public List<Post> listUpPosts(){
-        List<Post> posts = postService.findAllPosts();
-        return posts;
+        return "/post/show";
     }
 
     @GetMapping("/post/show")
-    public String showPosts(){
+    public String showPosts(@RequestParam(name="page",defaultValue = "1")int page,
+                            @RequestParam(name="size", defaultValue = "3")int size){
+        PageDto pageDto = postService.getPostByPage(page,size);
         return "/post/show";
     }
 
     @GetMapping("/edit/{id}")
-    public String showPost(@PathVariable("id") int id){
-        if(postService.findPostById(id) != null) {
-            return "post/post";
-        }else {
-            return "";
+    public String showPost(@PathVariable("id") int id,Model model){
+        try {
+            Post getPost = postService.findPostById(id);
+            model.addAttribute("posts", getPost);
+            return "/post/post";
+        }catch (IllegalStateException e){
+            return "common/error/404";
         }
     }
 
-    @GetMapping("/get/{id}")
-    @ResponseBody
-    public Post getPost(@PathVariable("id") int id){
-        return postService.findPostById(id);
-    }
-
     @PostMapping("/edit/post")
-    @ResponseBody
-    public void editPost(@RequestBody Post post){
+    public String editPost(@ModelAttribute Post post,Model model){
         postService.updatePost(post);
+        return "redirect:/post/show/1";
     }
 
     @GetMapping("/del/post/{id}")
     @ResponseBody
-    public void deletePost(@PathVariable int id){
+    public String deletePost(@PathVariable int id){
         postService.deletePost(id);
+        return "redirect:/post/show/1";
     }
 
+    @GetMapping("/post/list")
+    @ResponseBody
+    public PageDto getPostList(@RequestParam(name="page",defaultValue = "1")int page,
+                               @RequestParam(name="size", defaultValue = "3")int size){
 
+        return postService.getPostByPage(page,size);
+    }
 }

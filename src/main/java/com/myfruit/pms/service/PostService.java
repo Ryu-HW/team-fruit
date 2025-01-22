@@ -1,5 +1,6 @@
 package com.myfruit.pms.service;
 
+import com.myfruit.pms.DTO.PageDto;
 import com.myfruit.pms.DTO.Post;
 import com.myfruit.pms.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,16 @@ public class PostService {
         postMapper.insertPost(post);
     }
 
-    public List<Post> findAllPosts(){
-        return postMapper.selectAllPosts();
+    public PageDto getPostByPage(int page, int size){
+        int offset = (page-1)*size;
+
+
+        //여기서 조심 page가아니라 size를 넣어서 크로스됨
+        List<Post> posts = postMapper.selectPostByPage(size,offset);
+
+        int allPosts = postMapper.countAllPosts();
+        int pageNum = (int) Math.ceil((double)allPosts/size);
+        return new PageDto(pageNum,posts,page);
     }
 
     public Post findPostById(int id){
